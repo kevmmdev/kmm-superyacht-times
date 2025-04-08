@@ -5,6 +5,42 @@ import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 
+
+/**
+ TODO
+
+Screens
+  - LoginScreen
+    - auth form
+  YachtSearchScreen
+    - home screen
+    - list of the search results
+    - search bar
+  YachtDetailScreen
+    - map
+    - list of past positions
+    - optional: yacht details, etc
+    functionalities:
+      addPosition
+        - plus button which opens another modal
+        - show map with a pin defaulting to users current phone location
+        - long pressing map should move the pin/marker to the pressed location
+        - form fields (select date, time and note max 140 chars)
+        - create button, new position selected on the map should be added via the Position API ???
+        - after adding, user is redirected back to yacht detail screen, which should refresh and show the added position
+
+Tools to use:
+  - TanStack
+  - axios
+  - react native paper
+  - react-native-maps
+
+  nice to haves
+  - add prettier and linter
+  - add tests (optional)
+  - localization
+ */
+
 export default function HomeScreen() {
   return (
     <ParallaxScrollView
