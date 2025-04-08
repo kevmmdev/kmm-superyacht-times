@@ -12,6 +12,8 @@ import { ThemedView } from '@/components/ThemedView';
 Screens
   - LoginScreen
     - auth form
+        - username
+        - password
   YachtSearchScreen
     - home screen
     - list of the search results
