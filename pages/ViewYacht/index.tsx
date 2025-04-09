@@ -3,6 +3,8 @@ import { View, StyleSheet, Alert } from 'react-native';
 import MapView, { Marker, LongPressEvent } from 'react-native-maps';
 import * as Location from 'expo-location';
 
+
+// TODO: There’s currently no geolocation or position data in the yacht data from the api.
 export default function MapScreen() {
   const [location, setLocation] = useState<{
     latitude: number;

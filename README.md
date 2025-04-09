@@ -1,6 +1,44 @@
-# Welcome to your Expo app 👋
+# 🛥️ Yacht Position Tracker App (React Native + Expo)
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+This is an app **React Native**, **Expo**, and **TypeScript**. It allows users to:
+
+- View yacht details
+- View a map of the yacht's location
+- Add new historical positions via a form modal with a map, date/time picker, and note field
+
+---
+
+## ✨ Features
+
+- 📍 Map screen using `react-native-maps`
+- ➕ "Add Position" modal:
+  - Defaults to user's current location
+  - Long press to move pin
+  - Date/time picker
+  - Note input (max 140 chars)
+  - Sends data to the Position API
+- 🔄 After creation, closes modal and returns to yacht detail modal
+
+---
+
+## 🧱 Tech Stack
+
+- [React Native](https://reactnative.dev/)
+- [Expo](https://expo.dev/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [react-native-maps](https://github.com/react-native-maps/react-native-maps)
+- [expo-location](https://docs.expo.dev/versions/latest/sdk/location/)
+- [@react-native-community/datetimepicker](https://github.com/react-native-datetimepicker/datetimepicker)
+- [expo-router](https://expo.github.io/router/)
+
+---
+
+## 🚀 Getting Started
+
+### 1. Install dependencies
+
+```bash
+npm install
 
 ## Get started
 
