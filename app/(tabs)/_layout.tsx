@@ -22,9 +22,9 @@ Screens
    X - search api
   YachtDetailScreen
     - modal with tabs
-        - map with historical locations
-        - past positions
-        - optional:     - optional: yacht details, etc
+       X - map with historical locations
+       X - past positions
+       X - optional:     - optional: yacht details, etc
     functionalities:
       addPosition
         - plus button which opens another modal
