@@ -1,31 +1,62 @@
-import { View, Text, StyleSheet, ScrollView, SafeAreaView } from 'react-native';
-import { useGlobalSearchParams, useLocalSearchParams, useRouter } from 'expo-router';
-import React from 'react';
-import { YachtLike } from '@/api/yachtLike/types';
+import React, { useEffect, useState } from 'react';
+import { View, StyleSheet, Alert } from 'react-native';
+import MapView, { Marker, LongPressEvent } from 'react-native-maps';
+import * as Location from 'expo-location';
 
-export default function ViewYachtScreen() {
-  const { yacht } = useLocalSearchParams();
-  const yachtData = yacht ? (JSON.parse(yacht as string) as YachtLike) : null;
+export default function MapScreen() {
+  const [location, setLocation] = useState<{
+    latitude: number;
+    longitude: number;
+  } | null>(null);
+
+  useEffect(() => {
+    const initializeLocation = async () => {
+      const { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== 'granted') {
+        Alert.alert('Permission denied', 'We need location permission to show your position.');
+        return;
+      }
+
+      const { coords } = await Location.getCurrentPositionAsync({});
+      setLocation({
+        latitude: coords.latitude,
+        longitude: coords.longitude,
+      });
+    }
+
+    initializeLocation();
+  }, []);
+
+  const handleLongPress = (event: LongPressEvent) => {
+    const { coordinate } = event.nativeEvent;
+    setLocation({
+      latitude: coordinate.latitude,
+      longitude: coordinate.longitude,
+    });
+  };
+
+  if (!location) return null;
 
   return (
-    <SafeAreaView style={styles.parentContainer}>
-      <ScrollView contentContainerStyle={styles.container}>
-        <Text style={styles.title}>Yacht ID: {yachtData?.id}</Text>
-        {/* Later: fetch and show full yacht details */}
-      </ScrollView>
-    </SafeAreaView>
+    <View style={styles.container}>
+      <MapView
+        style={StyleSheet.absoluteFillObject}
+        initialRegion={{
+          latitude: location.latitude,
+          longitude: location.longitude,
+          latitudeDelta: 0.01,
+          longitudeDelta: 0.01,
+        }}
+        onLongPress={handleLongPress}
+      >
+        <Marker coordinate={location} />
+      </MapView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  parentContainer: {
-    flex: 1
-  },
   container: {
-    padding: 20,
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
+    flex: 1,
   },
 });
