@@ -9,12 +9,13 @@ import 'react-native-reanimated';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { PaperProvider } from 'react-native-paper';
 import { AuthScreen } from '@/pages/Auth';
+import { secureStorage, SecureStorageKeys } from '@/services/storage';
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
-  const [isLoggedIn, setIsLoggedIn] = useState(true)
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
   const colorScheme = useColorScheme();
   const [loaded] = useFonts({
     SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
@@ -26,6 +27,17 @@ export default function RootLayout() {
     }
   }, [loaded]);
 
+  useEffect(() => {
+    const checkToken = async () => {
+      const accessToken = await secureStorage.getItem(SecureStorageKeys.ACCESS_TOKEN);
+      if (!accessToken) return;
+
+      setIsLoggedIn(true)
+    }
+
+    checkToken();
+  }, [])
+
   if (!loaded) {
     return null;
   }
@@ -33,7 +45,7 @@ export default function RootLayout() {
   return (
     <PaperProvider>
       <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-        {isLoggedIn ? <AuthScreen /> : (
+        {!isLoggedIn ? <AuthScreen /> : (
           <Stack>
             <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
             <Stack.Screen name="+not-found" />

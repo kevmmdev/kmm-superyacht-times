@@ -4,6 +4,7 @@ import { StyleSheet, SafeAreaView, Text, Alert, View } from "react-native"
 import * as AuthSession from 'expo-auth-session';
 import * as WebBrowser from 'expo-web-browser';
 import { useEffect, useState } from "react";
+import { secureStorage, SecureStorageKeys } from "@/services/storage";
 
 WebBrowser.maybeCompleteAuthSession();
 //43qvtQBVZqcrytmwasLL-FqaJN438GZALoDkua4mlL8
@@ -60,8 +61,11 @@ export const useAuthSession = () => {
         ENDPOINTS
       );
 
-      console.log('Access Token:', tokenResponse.accessToken);
-      Alert.alert('Login Success', `Token: ${tokenResponse.accessToken}`);
+      await secureStorage.setItem(SecureStorageKeys.ACCESS_TOKEN, tokenResponse.accessToken);
+      await secureStorage.setItem(SecureStorageKeys.REFRESH_TOKEN, tokenResponse.accessToken);
+
+      //route to home screen
+      // Alert.alert('Login Success', `Token: ${tokenResponse.accessToken}`);
     } catch (err) {
       console.error('Token exchange failed:', err);
       Alert.alert('Login Failed', 'Could not retrieve access token.');
