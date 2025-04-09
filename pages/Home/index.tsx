@@ -39,9 +39,6 @@ export default function HomeScreen() {
   })
 
   const onSearchYacht = (searchText: string) => setSearchYacht(searchText);
-
-  console.log(data?.yacht_likes)
-
   const isEmptyData = !isLoading && data?.yacht_likes?.length === 0;
 
   return (

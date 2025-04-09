@@ -17,7 +17,7 @@ Screens
         - login button
   YachtSearchScreen
    X - home screen
-    - list of the search results
+   X - list of the search results
    X - search bar
    X - search api
   YachtDetailScreen

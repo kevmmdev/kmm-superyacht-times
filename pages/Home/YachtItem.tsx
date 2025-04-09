@@ -1,6 +1,7 @@
-import { View, Text, ListRenderItem, StyleSheet, Image } from 'react-native';
+import { View, Text, ListRenderItem, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import React from 'react';
 import { YachtLike } from '@/api/yachtLike/types';
+import { router } from 'expo-router';
 
 
 type YachtItemProps = ListRenderItem<YachtLike>
@@ -14,12 +15,23 @@ export const YachtItem: YachtItemProps = ({ item }) => {
     length_overall,
     guest_count,
     photos,
+    id
   } = item;
 
   const primaryPhoto = photos?.find((photo) => photo.primary);
 
+  const onViewYacht = () => {
+    router.push({
+      pathname: `/yachts/[yachtId]/map`,
+      params: {
+        yachtId: id,
+        yacht: JSON.stringify(item)
+      }
+    });
+  };
+
   return (
-    <View style={styles.container}>
+    <TouchableOpacity style={styles.container} onPress={onViewYacht}>
       {primaryPhoto ? (
         <Image
           source={{
@@ -43,7 +55,7 @@ export const YachtItem: YachtItemProps = ({ item }) => {
           {type?.toUpperCase()} • {length_overall}m • {guest_count ?? 0} guests
         </Text>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 
