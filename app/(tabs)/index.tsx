@@ -1,13 +1,20 @@
-import { Image, StyleSheet, SafeAreaView, View, Text } from 'react-native';
+import { Image, StyleSheet, SafeAreaView, View, Text, ActivityIndicator } from 'react-native';
 import { AppSearchBar } from '@/components/AppSearchBar';
 import { AppFlatList } from '@/components/AppFlatList';
-import { useState } from 'react';
+import React, { useState } from 'react';
+import { useYachtSearch } from '@/api/yachtLike/hooks';
+import { useDebouncedValue } from '@/hooks/useDebouncedValue';
 
-const HomeHeader = () => {
+type HomeHeaderProps = {
+  searchYacht: string;
+  onSearchYacht: (searchText: string) => void
+}
+
+const HomeHeader: React.FC<HomeHeaderProps> = ({ searchYacht, onSearchYacht }) => {
   return (
     <View style={styles.headerContainer}>
       <Text style={styles.headerTitle}>Welcome my comrades!</Text>
-      <AppSearchBar value='' placeholder='Search for yacht' />
+      <AppSearchBar value={searchYacht} placeholder='Search for yacht' onChangeText={onSearchYacht} />
     </View>
   )
 }
@@ -20,16 +27,30 @@ const ListEmptyComponent = () => {
   )
 }
 
+// TODO - Provider implementation to avoid prop drilling
 export default function HomeScreen() {
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchYacht, setSearchYacht] = useState('');
+  const debouncedSearch = useDebouncedValue(searchYacht, 500)
+
+  const { data, isLoading } = useYachtSearch({
+    searchTerm: debouncedSearch,
+    size: 25,
+  })
+
+  const onSearchYacht = (searchText: string) => setSearchYacht(searchText);
+
+  console.log(data)
+
+  const isEmptyData = !isLoading && !data;
 
   return (
     <SafeAreaView>
       <AppFlatList
-        ListHeaderComponent={HomeHeader}
+        ListHeaderComponent={<HomeHeader searchYacht={searchYacht} onSearchYacht={onSearchYacht} />}
         data={[]}
         renderItem={() => null}
-        ListEmptyComponent={ListEmptyComponent}
+        ListEmptyComponent={isEmptyData ? ListEmptyComponent : null}
+        ListFooterComponent={isLoading ? ActivityIndicator : null}
       />
     </SafeAreaView>
   );

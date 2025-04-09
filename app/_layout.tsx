@@ -10,6 +10,7 @@ import { useColorScheme } from '@/hooks/useColorScheme';
 import { PaperProvider } from 'react-native-paper';
 import { AuthScreen } from '@/pages/Auth';
 import { secureStorage, SecureStorageKeys } from '@/services/storage';
+import { QueryProvider } from '@/providers/QueryProvider';
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -43,16 +44,18 @@ export default function RootLayout() {
   }
 
   return (
-    <PaperProvider>
-      <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-        {!isLoggedIn ? <AuthScreen /> : (
-          <Stack>
-            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-            <Stack.Screen name="+not-found" />
-          </Stack>
-        )}
-        <StatusBar style="auto" />
-      </ThemeProvider>
-    </PaperProvider>
+    <QueryProvider>
+      <PaperProvider>
+        <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+          {!isLoggedIn ? <AuthScreen /> : (
+            <Stack>
+              <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+              <Stack.Screen name="+not-found" />
+            </Stack>
+          )}
+          <StatusBar style="auto" />
+        </ThemeProvider>
+      </PaperProvider>
+    </QueryProvider>
   );
 }
