@@ -41,6 +41,8 @@ Tools to use:
   - add prettier and linter
   - add tests (optional)
   - localization
+
+Last part: Apply optimizations etc useMemo, useCallBack. For now avoiding premature optimizations
  */
 
 export default function HomeScreen() {
