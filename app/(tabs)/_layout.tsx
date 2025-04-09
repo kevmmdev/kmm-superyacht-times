@@ -19,11 +19,12 @@ Screens
    X - home screen
     - list of the search results
    X - search bar
-    - search api
+   X - search api
   YachtDetailScreen
-    - map
-    - list of past positions
-    - optional: yacht details, etc
+    - modal with tabs
+        - map with historical locations
+        - past positions
+        - optional:     - optional: yacht details, etc
     functionalities:
       addPosition
         - plus button which opens another modal

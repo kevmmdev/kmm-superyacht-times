@@ -1,4 +1,5 @@
 import api from '../apiClient'
+import { YachtSearchResponse } from './types'
 
 export type YachtSearchPayload = {
   size?: number
@@ -12,7 +13,7 @@ export const searchYatchLikes = async ({
   from = 0,
   searchTerm = '',
   buildYear,
-}: YachtSearchPayload) => {
+}: YachtSearchPayload): Promise<YachtSearchResponse>  => {
   const should: any[] = []; // TODO remove any
 
   if (searchTerm) {
